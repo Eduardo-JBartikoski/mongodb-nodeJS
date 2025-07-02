@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "dotenv": "^17.0.1",
+    "express": "^5.1.0",
+    "mongodb": "^6.17.0",
+    "mongoose": "^8.16.1"
+  },
+  "name": "mongodb-nodejs",
+  "version": "1.0.0",
+  "main": "seedClientes.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eduardo-JBartikoski/mongodb-nodeJS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "type": "module",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Eduardo-JBartikoski/mongodb-nodeJS/issues"
+  },
+  "homepage": "https://github.com/Eduardo-JBartikoski/mongodb-nodeJS#readme",
+  "description": ""
+}
