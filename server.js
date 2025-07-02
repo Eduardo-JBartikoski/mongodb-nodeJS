@@ -14,7 +14,7 @@ app.use(express.json());
 const connectDB = async () => {
     try {
         await mongoose.connect("mongodb+srv://eduardobi207:9BnQHAgmnCoQ2GuM@server1.cztendk.mongodb.net/bancoDB?retryWrites=true&w=majority&appName=server1");
-        console.log("Conectado ao MongoDB");
+        console.log("Conectado ao seu servidor MongoDB");
 
     } catch (error) {
         console.log("Erro ao conectar com o mongoDB", error);
