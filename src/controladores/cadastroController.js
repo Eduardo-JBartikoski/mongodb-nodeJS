@@ -1,0 +1,1 @@
+const Cadastro = require('../modelos/cadastroModelo');
