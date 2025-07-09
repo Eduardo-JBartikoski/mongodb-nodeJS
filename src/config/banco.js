@@ -1,9 +1,11 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import Cliente from "../controladores/vendasclientes.js";
+import bcrypt from "bcrypt";
+import Cliente from "../controladores/cadastroController.js";
 
 dotenv.config();
+
 console.log("MONGO_URI:", process.env.MONGO_URI);
 
 const app = express();
@@ -14,27 +16,40 @@ app.use(express.json());
 //usuariarios
 
 const usuarioSchema = new mongoose.Schema({
-    usuario: {type: String, require: true },
-    email: { type: String, require: true, unique: true },
-    senha: { type: String, required: true }
+    usuario: {type: String, require: true, trim: true },
+    email: { type: String, require: true, unique: true,
+    match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Email inválido']    
+    },
+    senha: { type: String, required: true, select: false } // Corrigido "semha" para "senha"
+}, { timestamps: true });
+
+
+//Middleware hash senha
+usuarioSchema.pre('save', async function(next) {
+    if (!this.isModified('senha')) return next();
+    this.senha = await bcrypt.hash(this.senha, 10);
+    next();
 });
 
 const Cadastro = mongoose.model('cadastro',usuarioSchema);
 
 const connectDB = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_URI || "mongodb+srv://eduardobi207:9BnQHAgmnCoQ2GuM@server1.cztendk.mongodb.net/bancoDB?retryWrites=true&w=majority&appName=server1");
+        await mongoose.connect(process.env.MONGO_URI || "mongodb+srv://eduardobi207:9BnQHAgmnCoQ2GuM@server1.cztendk.mongodb.net/bancoDB?retryWrites=true&w=majority&appName=server1", {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
         console.log("Conectado ao seu servidor MongoDB");
 
     } catch (error) {
         console.log("Erro ao conectar com o mongoDB", error);
+        process.exit(1);
     }
 };
 
 
 
-//criando com hash de senha 
-
+//rotas
 app.post("/cadastros", async (req,res) => {
     try {
         const { usuario, email, senha } = req.body;
